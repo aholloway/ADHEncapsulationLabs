@@ -11,27 +11,93 @@ import java.util.Date;
  * @version     1.01
  */
 public class Employee {
-    String firstName;
-    String lastName;
-    public String ssn;
-    public Date birthDate;
-    boolean metWithHr;
-    boolean metDeptStaff;
-    boolean reviewedDeptPolicies;
-    boolean movedIn;
-    String cubeId;
+    //data should be hidden.  Data should have getters and setters
+    private String firstName;
+    private String lastName;
+    private String ssn;
+    //birthDate is not used initially but will now have a getter and setter method.
+    private Date birthDate;
+    private boolean metWithHr;
+    private boolean metDeptStaff;
+    private boolean reviewedDeptPolicies;
+    private boolean movedIn;
+    private String cubeId;
 
-    public Employee() {
+    // I'm creating a constructor that takes some of the properties as arguments
+    public Employee(String fName, String lName, String ssn) {
+        //needs validation
+        firstName=fName;
+        lastName=lName;
+        this.ssn=ssn;
 
     }
+    
+    //Getters amd setters for firstName, lastName, ssn, and birthDate, and cubeId
+    //Setters need validation.
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+    
+    public String getCubeId() {
+        return cubeId;
+    }
+ 
+    //setCubeId is included so that the employee can move to a new cube without
+    //going through the hiring process :)
+    public void setCubeId(String cubeId) {
+        this.cubeId = cubeId;
+    }
+    
+    
+    // this method pulls the four methods of orientation into a single method.
+    public void beginOrientation(String cubeId){
+        //need validation of Cube ID string
+        
+        //call private methods in the correct order.  
+        //complexity is hidden from the end user.
+        this.meetWithHrForBenefitAndSalryInfo();
+        this.meetDepartmentStaff();
+        this.reviewDeptPolicies();
+        this.moveIntoCubicle(cubeId);
+        
+    }
+    
+    //four methods should be private and are now called by the beginOrientation method
     // Assume this must be performed first
-    public void meetWithHrForBenefitAndSalryInfo() {
+    private void meetWithHrForBenefitAndSalryInfo() {
         metWithHr = true;
     }
 
     // Assume this is must be performed second
-    public void meetDepartmentStaff() {
+    private void meetDepartmentStaff() {
         if(metWithHr) {
             metDeptStaff = true;
         } else {
@@ -41,7 +107,7 @@ public class Employee {
     }
 
     // Assume this must be performed third
-    public void reviewDeptPolicies() {
+    private void reviewDeptPolicies() {
         if(metWithHr && metDeptStaff) {
             reviewedDeptPolicies = true;
         } else {
@@ -52,9 +118,9 @@ public class Employee {
     }
 
     // Assume this must be performed 4th
-    public void moveIntoCubicle(String cubeId) {
+    private void moveIntoCubicle(String cubeId) {
         if(metWithHr && metDeptStaff && reviewedDeptPolicies) {
-            this.cubeId = cubeId;
+            this.cubeId = cubeId; //could also use the setter method.
             this.movedIn = true;
         } else {
             throw new IllegalStateException("Sorry, you cannot move in to a "
