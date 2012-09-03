@@ -26,7 +26,7 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     private String partNo;  // should be private!
     private int foundIndex = NOT_FOUND;  // should be private!
     private String partDesc;
-    private double partPrice;  // should be private!
+    private String partPrice;  // should be private!
 
     // should be private!
     private String[] partNums = new String[10];
@@ -37,7 +37,7 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     /** Creates new form MainGUI */
     public MainGUI() {
         //add the object that we want to create.
-        PartList partList=new partList();
+        PartList partList=new PartList();
         initComponents();
         this.txtNewProdNo.requestFocus();
     }
@@ -264,6 +264,7 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
         partNo = this.txtNewProdNo.getText();
         partDesc = this.txtNewProdDesc.getText();
+        partPrice=this.txtNewProdPrice.getText();
         //should send this information to a method for processing.  The method should
         //be in another class that is responsible for parsing the text and validating it.
         //Class should be called Part and have methods like add part.
@@ -274,34 +275,37 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
         //empty row can be stored in the Part class and requested from there
         //Part will have to have a return method that takes a parameter
         // getPartDesc(1) would return part desc for part 1.
-        try {
-            partPrice = Double.parseDouble(this.txtNewProdPrice.getText());
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Sorry, the price entry must be a whole or floating point number only.\n",
-                    "Number Format Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (emptyRow > 10) {
-            JOptionPane.showMessageDialog(this, 
-                    "Sorry, you have reach the maximum of 10 items.\n"
-                    + "No more items can be saved.", "Maximum Reached", JOptionPane.WARNING_MESSAGE);
-
-        } else if (partNo.length() == 0 || partDesc.length() == 0 
-                || this.txtNewProdPrice.getText().length() == 0)
-        {
-            JOptionPane.showMessageDialog(this, 
-                    "Sorry, you must complete all fields. Please try again.",
-                    "Incomplete Part Entry", JOptionPane.WARNING_MESSAGE);
-            this.txtNewProdNo.requestFocus();
-
-        } else {
-            partNums[emptyRow] = partNo;
-            partDescs[emptyRow] = partDesc;
-            partPrices[emptyRow] = partPrice;
-            this.emptyRow += 1;
-        }
+        partList.add(partNo,partDesc,partPrice);
+        
+        
+//        try {
+//            partPrice = Double.parseDouble(this.txtNewProdPrice.getText());
+//        } catch(Exception e) {
+//            JOptionPane.showMessageDialog(this,
+//                    "Sorry, the price entry must be a whole or floating point number only.\n",
+//                    "Number Format Error", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        if (emptyRow > 10) {
+//            JOptionPane.showMessageDialog(this, 
+//                    "Sorry, you have reach the maximum of 10 items.\n"
+//                    + "No more items can be saved.", "Maximum Reached", JOptionPane.WARNING_MESSAGE);
+//
+//        } else if (partNo.length() == 0 || partDesc.length() == 0 
+//                || this.txtNewProdPrice.getText().length() == 0)
+//        {
+//            JOptionPane.showMessageDialog(this, 
+//                    "Sorry, you must complete all fields. Please try again.",
+//                    "Incomplete Part Entry", JOptionPane.WARNING_MESSAGE);
+//            this.txtNewProdNo.requestFocus();
+//
+//        } else {
+//            partNums[emptyRow] = partNo;
+//            partDescs[emptyRow] = partDesc;
+//            partPrices[emptyRow] = partPrice;
+//            this.emptyRow += 1;
+//        }
 
         clearEntryFields();
         this.txtNewProdNo.requestFocus();
