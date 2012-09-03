@@ -1,0 +1,178 @@
+//certain types would be enumerated types like race, difficulty, language.  But for
+//simplicity I left them as strings.
+
+//Game Character Class
+public class GameCharacter {
+	private String characterName;
+	private String characterRace;
+	private int characterHitPoints;
+
+	//basic setters and getters (getters not shown)
+	//some of these characteristis may change through the game
+	public void setName(String name){
+		//Validation
+		characterName=name;
+	}
+
+	public void setRace(String race){
+		//Validation
+		characterRace=race;
+	}
+
+	public void setHitPoints(int hitPoints){
+		//Validation
+		charaterHitPoints=hitPoints;
+	}
+}
+
+	
+public class Game {
+	//stores general information relating to the overall game
+	private time lastSavedTime;
+	private String gameDifficulty;
+	private String language;
+		
+	public void beginGame(){
+		GameCharacter player = new GameCharacter();
+		//randomly generates terrain (but not yet visible)
+		GameBoard board = new GameBoard();
+		// 
+		Gui gui = new Gui();
+		gui.askStartUpCharacteristics();
+		gui.askCharacterTraits();
+		board.setNumEnemies(String difficulty);
+		gui.showBoard();
+	}		
+
+	public void saveGame(){
+		//saves game and stores current time in lastSavedTime
+	}
+
+	public void setLanguage(String language){
+		this.language=language;
+	}
+
+	public void setDifficulty(String difficulty){
+		gameDifficulty=difficulty;
+	}
+
+	public String getDifficulty(){
+		return difficulty;
+	}
+
+}
+
+public class GameBoard {
+
+	private int mapSize;
+	private int numEnemies;
+	private String terrainType
+	
+	//constructor creates random terrain
+	public GameBoard(){
+		this.setupMap;
+	}
+
+	private void setupMap(){
+		//ideally map would be a two dimensional array with length and width set below, but 
+		//for simplicity it is just an int.
+		//mapLength is randomly generated length between 8 and 12
+		//mapWidth is randomly generated width between 5 and 10
+		mapSize=mapLength*mapWidth;
+		//terrainType is randomly generated (swamp, forest, plains, mountain, island)
+	}
+
+	public void setNumEnemies(String difficulty){
+		//generates random number of enemies based on difficulty
+	}
+
+}
+
+
+public class Gui {
+
+	private boolean displayBoard;
+	private boolean displayCharacter;
+	//switches display to fightScreen (not used currently)
+	private boolean fightScreen;
+
+	public Gui() {
+		//Code that activates GUI
+
+		//initialize display booleans with false
+		displayBoard=false;
+		displayCharacter=false;
+		displayfightScreen=false;
+	}
+
+
+	//asks startup characteristics, stores in game object
+	askStartUpCharacteristics(){
+		//ask user through GUI interface for language, and difficulty of game
+		//stores information in Game object
+		game.setLanguage(language);
+		game.setDifficulty(difficulty);
+		
+	}
+
+	
+	//asks user for character traits, stores in player object
+	askCharacterTraits(){
+		//ask user through GUI interface for character traits: name, race, and hit points
+		//stores in the player object
+		player.setName(name);
+		player.setRace(race);
+		player.setHitPoints(hP);
+	}
+
+
+	//showBoard(){
+		displayBoard=true;
+		displayCharacter=true;
+	}
+
+}
+
+public static void main(String[] args){
+
+	Game game = new Game();
+	game.beginGame();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
