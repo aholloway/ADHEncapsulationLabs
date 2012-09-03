@@ -259,15 +259,15 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnterRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterRecordActionPerformed
-        
 
-        partNo = this.txtNewProdNo.getText();
-        partDesc = this.txtNewProdDesc.getText();
-        partPrice = this.txtNewProdPrice.getText();
-        
+
+        String partNo = this.txtNewProdNo.getText();
+        String partDesc = this.txtNewProdDesc.getText();
+        String partPrice = this.txtNewProdPrice.getText();
+
         //focus holds the output from the call to the static method
         int focus = PartList.add(partNo, partDesc, partPrice);
-        
+
         if (focus == 1) { //price was not in correct format
             this.txtNewProdPrice.requestFocus();
             return;
@@ -282,15 +282,16 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String searchNum = txtSearchPartNo.getText();
-              
+
         PartList.searchNum(searchNum);
-        if (PartList.getFoundIndex()!=PartList.NOT_FOUND){ //part was found, found index holds the subscript of the part.
+        //if part was found, found index holds the subscript of the part.
+        int foundIndex = PartList.getFoundIndex();
+        //if part was not found, found Index is equal to PartList.NOT_FOUND
+        if (foundIndex != PartList.NOT_FOUND) {
             txtCurProdNo.setText(PartList.getPartNums(foundIndex));
             txtCurDesc.setText(PartList.getPartDescs(foundIndex));
             txtCurPrice.setText("" + PartList.getPartPrices(foundIndex));
         }
-        
-
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDisplayListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayListActionPerformed
@@ -298,21 +299,19 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnDisplayListActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        //may need to revamp this first check.
-        if (foundIndex == NOT_FOUND) {
+
+        String partNo = this.txtNewProdNo.getText();
+        String partDesc = this.txtNewProdDesc.getText();
+        String partPrice = this.txtNewProdPrice.getText();
+
+        int status = PartList.updatePart(partNo, partDesc, partPrice);
+
+        if (status == 1) {
             JOptionPane.showMessageDialog(this,
                     "Part Number not found. Please try again.",
                     "Search Failure", JOptionPane.WARNING_MESSAGE);
         } else {
-            //validate that Price is a number.
-            PartList.setPartPrices(foundIndex, txtCurPrice.getText());
-            PartList.setPartNums(foundIndex, txtCurProdNo.getText());
-            PartList.setPartDescs(foundIndex, txtCurProdNo.getText());
-            
-            
-            partNums[foundIndex] = txtCurProdNo.getText();
-            partDescs[foundIndex] = txtCurDesc.getText();
-            partPrices[foundIndex] = Double.parseDouble(txtCurPrice.getText());
+
             displayList();
             JOptionPane.showMessageDialog(this,
                     "Part updated successfully!",
@@ -321,7 +320,12 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSortListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortListActionPerformed
-        sortList();
+        int sortList = PartList.sortList();
+        if (sortList == 1) {
+            // Once it's sorted, display in the list box
+            displayList();
+        }
+
     }//GEN-LAST:event_btnSortListActionPerformed
 
     private void displayList() {
@@ -332,37 +336,6 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
             String rLine = PartList.getPartNums(i) + "\t"
                     + PartList.getPartDescs(i) + "\t\t" + nf.format(PartList.getPartPrices(i)) + "\n";
             listProducts.append(rLine);
-        }
-    }
-
-    // Sort by partNumber
-    private void sortList() {
-        // Only perform the sort if we have records
-        if (emptyRow > 0) {
-            // Bubble sort routine adapted from sample in text book...
-            // Make sure the operations are peformed on all 3 arrays!
-            for (int passNum = 1; passNum < emptyRow; passNum++) {
-                for (int i = 1; i <= emptyRow - passNum; i++) {
-                    String temp = "";
-                    temp += partPrices[i - 1];
-                    partPrices[i - 1] = partPrices[i];
-                    partPrices[i] = Double.parseDouble(temp);
-
-                    temp = partNums[i - 1];
-                    partNums[i - 1] = partNums[i];
-                    partNums[i] = temp;
-
-                    temp = partDescs[i - 1];
-                    partDescs[i - 1] = partDescs[i];
-                    partDescs[i] = temp;
-                }
-            }
-            // Once it's sorted, display in the list box
-            displayList();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Sorry, there are not items to sort", "Sort Error",
-                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
