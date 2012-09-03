@@ -300,16 +300,14 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
 
-        String partNo = this.txtNewProdNo.getText();
-        String partDesc = this.txtNewProdDesc.getText();
-        String partPrice = this.txtNewProdPrice.getText();
+        String partNo = txtCurProdNo.getText();
+        String partDesc = txtCurDesc.getText();
+        String partPrice = txtCurPrice.getText();
 
         int status = PartList.updatePart(partNo, partDesc, partPrice);
 
-        if (status == 1) {
-            JOptionPane.showMessageDialog(this,
-                    "Part Number not found. Please try again.",
-                    "Search Failure", JOptionPane.WARNING_MESSAGE);
+        if (status == 1) { //error occurred during validation
+            return;
         } else {
 
             displayList();
@@ -344,6 +342,9 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
         txtNewProdDesc.setText("");
         txtNewProdPrice.setText("");
     }
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisplayList;
     private javax.swing.JButton btnEnterRecord;

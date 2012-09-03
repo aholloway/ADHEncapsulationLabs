@@ -33,7 +33,7 @@ public class PartList {
             return 0;
         }
 
-        double partPrice = 0;
+        double partPrice=0;
         try {
             partPrice = Double.parseDouble(partPriceString);
         } catch (Exception e) {
@@ -105,26 +105,24 @@ public class PartList {
     }
 
     public static int updatePart(String partNo, String partDesc, String partPriceString) {
-        //may need to revamp this first check.
+        // foundIndex contains the current part
         if (foundIndex == NOT_FOUND) {
             JOptionPane.showMessageDialog(null,
                     "Part Number not found. Please try again.",
                     "Search Failure", JOptionPane.WARNING_MESSAGE);
             return 1;
         } else {
-            double partPrice = 0;
-            //validatate that partPrice is a number
-            try {
-                partPrice = Double.parseDouble(partPriceString);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,
-                        "Sorry, the price entry must be a whole or floating point number only.\n",
-                        "Number Format Error", JOptionPane.WARNING_MESSAGE);
-            }
-
-
-            partPrices[foundIndex] = partPrice;
-            partNums[foundIndex] = partNo;
+            double partPrice=0;
+        try {
+            partPrices[foundIndex] = Double.parseDouble(partPriceString);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Sorry, the price entry must be a whole or floating point number only.\n",
+                    "Number Format Error", JOptionPane.WARNING_MESSAGE);
+            return 0;// tells the GUI to request focus for the Number input.
+        }
+            partPrices[foundIndex] = Double.parseDouble(partPriceString);
+            partNums[foundIndex] = partNo; //not needed.
             partDescs[foundIndex] = partDesc;
             return 0;
         }
