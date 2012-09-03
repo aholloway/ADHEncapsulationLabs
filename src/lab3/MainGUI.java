@@ -21,17 +21,7 @@ import javax.swing.*;
  */
 public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
-    private final int MAX_RECS = 10; //not Needed
-    private final int NOT_FOUND = -1; //not needed
-    private String partNo;  // should be private!
-    private int foundIndex = NOT_FOUND;  // not needed
-    private String partDesc; //not needed
-    private String partPrice;  // should be private!
-    // should be private!
-    private String[] partNums = new String[10];
-    private String[] partDescs = new String[10];
-    private double[] partPrices = new double[10];
-    private int emptyRow;
+    //GUI does not need to have fields to save information.
 
     /**
      * Creates new form MainGUI
@@ -270,10 +260,8 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
         if (focus == 1) { //price was not in correct format
             this.txtNewProdPrice.requestFocus();
-            return;
         } else if (focus == 2) { //all blank fields were sent
             this.txtNewProdNo.requestFocus();
-            return;
         } else { // entry was succesful
             clearEntryFields();
             this.txtNewProdNo.requestFocus();
@@ -306,10 +294,7 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
         int status = PartList.updatePart(partNo, partDesc, partPrice);
 
-        if (status == 1) { //error occurred during validation
-            return;
-        } else {
-
+        if (status != 1) { //error did not occur during validation
             displayList();
             JOptionPane.showMessageDialog(this,
                     "Part updated successfully!",

@@ -33,7 +33,10 @@ public class PartList {
             return 0;
         }
 
-        double partPrice=0;
+        double partPrice = 0;
+        //optimization could happen with the code block below as it is used twice
+        //in nearly identical fashion
+        //I'm just going to leave it as a comment for now.
         try {
             partPrice = Double.parseDouble(partPriceString);
         } catch (Exception e) {
@@ -61,6 +64,9 @@ public class PartList {
                     break;
                 }
             }
+            //optimization could happen with the code block below as it is used twice
+            //in nearly identical fashion
+            //I'm just going to leave it as a comment for now.
             if (foundIndex == NOT_FOUND) {
                 JOptionPane.showMessageDialog(null,
                         "Part Number not found. Please try again.",
@@ -112,15 +118,15 @@ public class PartList {
                     "Search Failure", JOptionPane.WARNING_MESSAGE);
             return 1;
         } else {
-            double partPrice=0;
-        try {
-            partPrices[foundIndex] = Double.parseDouble(partPriceString);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,
-                    "Sorry, the price entry must be a whole or floating point number only.\n",
-                    "Number Format Error", JOptionPane.WARNING_MESSAGE);
-            return 0;// tells the GUI to request focus for the Number input.
-        }
+            double partPrice = 0;
+            try {
+                partPrices[foundIndex] = Double.parseDouble(partPriceString);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,
+                        "Sorry, the price entry must be a whole or floating point number only.\n",
+                        "Number Format Error", JOptionPane.WARNING_MESSAGE);
+                return 0;// tells the GUI to request focus for the Number input.
+            }
             partPrices[foundIndex] = Double.parseDouble(partPriceString);
             partNums[foundIndex] = partNo; //not needed.
             partDescs[foundIndex] = partDesc;
