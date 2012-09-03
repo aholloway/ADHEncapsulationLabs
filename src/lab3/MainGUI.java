@@ -21,11 +21,11 @@ import javax.swing.*;
  */
 public class MainGUI extends javax.swing.JFrame implements ActionListener {
 
-    private final int MAX_RECS = 10;
-    private final int NOT_FOUND = -1;
+    private final int MAX_RECS = 10; //not Needed
+    private final int NOT_FOUND = -1; //not needed
     private String partNo;  // should be private!
-    private int foundIndex = NOT_FOUND;  // should be private!
-    private String partDesc;
+    private int foundIndex = NOT_FOUND;  // not needed
+    private String partDesc; //not needed
     private String partPrice;  // should be private!
     // should be private!
     private String[] partNums = new String[10];
@@ -37,8 +37,6 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
      * Creates new form MainGUI
      */
     public MainGUI() {
-        //add the object that we want to create.
-        PartList partList = new PartList();
         initComponents();
         this.txtNewProdNo.requestFocus();
     }
@@ -261,90 +259,37 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnterRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterRecordActionPerformed
-        //foundIndex = NOT_FOUND;
+        
 
         partNo = this.txtNewProdNo.getText();
         partDesc = this.txtNewProdDesc.getText();
         partPrice = this.txtNewProdPrice.getText();
-        //should send this information to a method for processing.  The method should
-        //be in another class that is responsible for parsing the text and validating it.
-        //Class should be called Part and have methods like add part.
-        //price can be recorded as a double and sent to the method part.addpart
-
-        //uses emptyRow
-        //needs to have a way to request empty row, and maybe increment empty row.
-        //empty row can be stored in the Part class and requested from there
-        //Part will have to have a return method that takes a parameter
-        // getPartDesc(1) would return part desc for part 1.
+        
+        //focus holds the output from the call to the static method
         int focus = PartList.add(partNo, partDesc, partPrice);
-        JOptionPane.showMessageDialog(this, focus);
-        if (focus == 1) {
+        
+        if (focus == 1) { //price was not in correct format
             this.txtNewProdPrice.requestFocus();
             return;
-        } else if (focus == 2) {
+        } else if (focus == 2) { //all blank fields were sent
             this.txtNewProdNo.requestFocus();
             return;
-        } else {
+        } else { // entry was succesful
             clearEntryFields();
             this.txtNewProdNo.requestFocus();
         }
-
-//        try {
-//            partPrice = Double.parseDouble(this.txtNewProdPrice.getText());
-//        } catch(Exception e) {
-//            JOptionPane.showMessageDialog(this,
-//                    "Sorry, the price entry must be a whole or floating point number only.\n",
-//                    "Number Format Error", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        if (emptyRow > 10) {
-//            JOptionPane.showMessageDialog(this, 
-//                    "Sorry, you have reach the maximum of 10 items.\n"
-//                    + "No more items can be saved.", "Maximum Reached", JOptionPane.WARNING_MESSAGE);
-//
-//        } else if (partNo.length() == 0 || partDesc.length() == 0 
-//                || this.txtNewProdPrice.getText().length() == 0)
-//        {
-//            JOptionPane.showMessageDialog(this, 
-//                    "Sorry, you must complete all fields. Please try again.",
-//                    "Incomplete Part Entry", JOptionPane.WARNING_MESSAGE);
-//            this.txtNewProdNo.requestFocus();
-//
-//        } else {
-//            partNums[emptyRow] = partNo;
-//            partDescs[emptyRow] = partDesc;
-//            partPrices[emptyRow] = partPrice;
-//            this.emptyRow += 1;
-//        }
-
-        clearEntryFields();
-        this.txtNewProdNo.requestFocus();
 }//GEN-LAST:event_btnEnterRecordActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String searchNum = txtSearchPartNo.getText();
-        if (searchNum != null && searchNum.length() > 0) {
-            for (int i = 0; i < this.partNums.length; i++) {
-                if (searchNum.equalsIgnoreCase(partNums[i])) {
-                    foundIndex = i;
-                    break;
-                }
-            }
-            if (foundIndex == NOT_FOUND) {
-                JOptionPane.showMessageDialog(this,
-                        "Part Number not found. Please try again.",
-                        "Not Found", JOptionPane.WARNING_MESSAGE);
-            } else {
-                txtCurProdNo.setText(partNums[foundIndex]);
-                txtCurDesc.setText(partDescs[foundIndex]);
-                txtCurPrice.setText("" + partPrices[foundIndex]);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Please enter a Part No. to search",
-                    "Entry Missing", JOptionPane.WARNING_MESSAGE);
+              
+        PartList.searchNum(searchNum);
+        if (PartList.getFoundIndex()!=PartList.NOT_FOUND){ //part was found, found index holds the subscript of the part.
+            txtCurProdNo.setText(PartList.getPartNums(foundIndex));
+            txtCurDesc.setText(PartList.getPartDescs(foundIndex));
+            txtCurPrice.setText("" + PartList.getPartPrices(foundIndex));
         }
+        
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -353,11 +298,18 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnDisplayListActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        //may need to revamp this first check.
         if (foundIndex == NOT_FOUND) {
             JOptionPane.showMessageDialog(this,
                     "Part Number not found. Please try again.",
                     "Search Failure", JOptionPane.WARNING_MESSAGE);
         } else {
+            //validate that Price is a number.
+            PartList.setPartPrices(foundIndex, txtCurPrice.getText());
+            PartList.setPartNums(foundIndex, txtCurProdNo.getText());
+            PartList.setPartDescs(foundIndex, txtCurProdNo.getText());
+            
+            
             partNums[foundIndex] = txtCurProdNo.getText();
             partDescs[foundIndex] = txtCurDesc.getText();
             partPrices[foundIndex] = Double.parseDouble(txtCurPrice.getText());
@@ -376,9 +328,9 @@ public class MainGUI extends javax.swing.JFrame implements ActionListener {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         listProducts.setText(""); // clear list
         listProducts.append("Part\tDesc\t\tPrice\n====\t====\t\t=====\n");
-        for (int i = 0; i < emptyRow; i++) {
-            String rLine = partNums[i] + "\t"
-                    + partDescs[i] + "\t\t" + nf.format(partPrices[i]) + "\n";
+        for (int i = 0; i < PartList.getEmptyRow(); i++) {
+            String rLine = PartList.getPartNums(i) + "\t"
+                    + PartList.getPartDescs(i) + "\t\t" + nf.format(PartList.getPartPrices(i)) + "\n";
             listProducts.append(rLine);
         }
     }
