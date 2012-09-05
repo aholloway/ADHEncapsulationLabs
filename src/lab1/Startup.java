@@ -12,6 +12,7 @@ public class Startup {
     public static void main(String[] args) {
         Employee employee = new Employee("Peter","Piper","333-1234");
         
+<<<<<<< HEAD
         // Send New employee's cube number as a paramater.
         employee.beginOrientation("Cube 116");
 
@@ -22,6 +23,14 @@ public class Startup {
         //        employee.reviewDeptPolicies();
 
         // Added printlines to make sure that the method worked as expected.
+=======
+        
+        employee.beginOrientation("Cube 116");
+//        employee.meetDepartmentStaff();
+//        employee.meetWithHrForBenefitAndSalryInfo();
+//        employee.reviewDeptPolicies();
+
+>>>>>>> branch 'master' of https://github.com/aholloway/ADHEncapsulationLabs.git
         System.out.println("The employee's status is: " + employee.getStatus());
         System.out.println("The employee's name is "+employee.getFirstName()+" "
                 +employee.getLastName());
